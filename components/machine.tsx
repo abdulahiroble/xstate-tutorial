@@ -71,24 +71,30 @@ const machine =
 
 // Parrallel state 
 export const machine2 =
-    /** @xstate-layout N4IgpgJg5mDOIC5QGECGAbdACAtqgxgBYCWAdmAHQCyx+ATgPYAOhD51ArgC6QDEAqqRzcwiUEwaxiXYmzEgAHogC0AFlUA2CqoBMqgIwBWIwHZ9+vRoA0IAJ6IAnA+0AOBwAYNGkw4uqAzEYAvkE2aJi4BCTsNPTMrOyCwjwQvFQi8hJSMnJIiioa-v4UXl4u+qomJhoOqg429gg6RiX+liY6Li6GGoYuIWEY2HhEZJQAasQQYAwUAMqsAO5kUFgAblMzvAASm1iT0wyZktKypPJKCMo6N9qqxhouOkV11SYNiG2GJW4enfpFZ4DEDhYZRMYUA4zCi7CArdabBi8BYMRYIw7HbJnC4qfzOIomdyGTRtQlOFwfJqqdwUdxOWpuQJOfzufwhUIgUgMabwPKgyKjGK0RgsNiUdIpTGnXKgS7KDTuHQUfQmVQuEz+So+VmqSnKfxaAzPBwav6s9z9Dn8kbRcXC+JiihJEQQKU5c55OXqFzKow6Tz+crklzWOyffTOfQh1n6QpRmr6YHW8FCuKi8hu7GegqGEwlUrlLU1Op6-R0iiB-wdFy6HSqzU6JNDAW2yGI+ZLeEbDF5LLSj2ylR6fQlOs9ALuExuFWUiw0zSGG4+TUWbyqJsRG0QqGzWFdxGZmX5BAuGnudy6akBCqGBwufyUzVaapFQNuDVRhxsq3NrfsHeHgOx7XL0o4mOOLJTr47xhgglTaF+3RFLGHhqsSG5goKoi9ic7o4lcjwjqUhFFrU9SwcoUZKv4hjGOaeIOL0gTskEQA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QAUAWB7AdmABAYwEMAbInAWwL1QEtsA6AWWrwCd0AHDehgVwBdIAYgCqmMvzCJQ7dLGp9qWKSAAeiALQAmAMwBOOgA5dANmPaDxgwYCsV65oA0IAJ4bNdAIwWADABZrvr4e3tb23qYAvhFOaFi4hCTklDTczGyccXSi4gIQgrwCyjJyCkpIqhrW3voG4boeut4ezZoeTq4IWp4+-oHBoZre2lExXPHEpBRUtGB0AGrUEGDodADKGADutFA4AG6Ly4IAEgc4C0voRbLyipjKagia+sYhxgDsmgaBmi9v9u2IXwGOiaXy6Xx-fwNVr1EYgWLYfATJLTejnZZ0E4QbZ7A7oQTrdAbXEXK4lW73RCtdxvDzaN4WQJVIEQgGdel0bS+PwM3xPbm1axRaIgTDoJbwcoI8aJKYpWZMVgcMaMCQQMk3MqgB7qPTGTxgt7aLm6XQ-BpvNlabzeOi+cxGo3Ge306zGOHSpGy5IzRhpZWZbJqjWlO7lHXc7SeYweXzGTQfXQGVraNnQujWXRGoJZoZ54Yiz0JSY+1JKjLYEMU8OVY2GOoNJotNouNxGu3BZoNAweULgoWFsZekuo2bolaEraYHb7UnlYqasPaxDBO06BPvYxJ0y0y2tzq9-VZ6wNcEJhMuj1D4so+XzPGYxY42fLKtaioIY3uEJVHtVM1eAmbJbpymhPM01jaJmHgMgOoxxMOt6+uOb5Lh+6h0hmbzvOu2hNF+BipvuWhPHQ4LGNYbzcoEYLxgW8GIjecozKhlKdKEbz1lujZdq0Vpcvq5ixs6tTOtykHChEQA */
     createMachine({
-        id: "Call machine",
+        tsTypes: {} as import("./machine.typegen").Typegen0,
+        id: "Phone call machine",
         type: "parallel",
         states: {
             Microphone: {
                 initial: "Muted",
                 states: {
                     Muted: {
+                        entry: "Mute microphone",
+                        exit: "Unmute microphone",
                         on: {
                             Unmute: {
+                                actions: "Unmute microphone",
                                 target: "Unmuted",
                             },
                         },
                     },
                     Unmuted: {
+                        entry: "Unmute microphone",
                         on: {
                             Mute: {
+                                actions: "Mute microphone",
                                 target: "Muted",
                             },
                         },
@@ -115,6 +121,24 @@ export const machine2 =
                 },
             },
         },
-    })
+    }).withConfig({
+        actions: {
+            "Mute microphone": () => {
+                // alert("Microphone muted")
+            },
+            "Unmute microphone": () => {
+                // alert("Microphone unmuted")
+            }
+        }
+    });
 
-    // Self transitions
+    // {
+        // actions: {
+        //     "Mute microphone": () => {
+        //         alert("Microphone muted")
+        //     },
+        //     "Unmute microphone": () => {
+        //         alert("Microphone unmuted")
+        //     }
+        // }
+    // })
